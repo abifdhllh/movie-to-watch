@@ -1,10 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -16,74 +11,26 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import Text from '@components/Text';
 import View from '@components/View';
-import {PEOPLE_TEST} from '@utils/images';
 import {Colors} from '@utils/theme';
-import PersonItem from '@components/ListItem/PersonItem';
 import {Dispatch, RootState} from '@store/index';
 import {RootStackParamList} from '@navigation/types';
-import {
-  getImageApi,
-  round,
-  thousandSeparator,
-  timeConvert,
-} from '@utils/functions';
+import {getImageApi, round} from '@utils/functions';
 import moment from 'moment';
+import HorizontalPersonList from '@components/List/HorizontalPersonList';
+import {MEDIA_TYPE} from '@utils/constant';
 
-const dummy = [
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-  {
-    realName: 'Rami Malek',
-    characterName: 'Freddie Mercury',
-    image: PEOPLE_TEST,
-  },
-];
+type Props = NativeStackScreenProps<RootStackParamList, 'TVShowDetail'>;
 
-type Props = NativeStackScreenProps<RootStackParamList, 'MovieDetail'>;
-
-const MovieDetail = ({route}: Props) => {
-  const {id: movieId} = route?.params || {};
+const TVShowDetail = ({route}: Props) => {
+  const {id: tvId} = route?.params || {};
   const {detail, loadingDetail} = useSelector(
-    (state: RootState) => state.movie,
+    (state: RootState) => state.tvShow,
   );
   const dispatch = useDispatch<Dispatch>();
-  console.log('Detail', loadingDetail);
 
+  console.log('Detail', detail);
   useEffect(() => {
-    dispatch.movie?.getMovieDetail(movieId);
+    dispatch.tvShow?.getTVShowDetail(tvId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,7 +46,9 @@ const MovieDetail = ({route}: Props) => {
           <View style={styles.headerImageContainer}>
             <FastImage
               style={styles.headerImage}
-              source={getImageApi(detail?.backdrop_path) as {uri: string}}
+              source={
+                getImageApi(detail?.backdrop_path, 'w500') as {uri: string}
+              }
               resizeMode="stretch"
             />
             <View
@@ -108,7 +57,7 @@ const MovieDetail = ({route}: Props) => {
               bottom={10}
               paddingRight={wp('20%')}>
               <Text fontSize={hp('3%')} color={Colors.white} fontWeight="bold">
-                {detail?.title}
+                {detail?.name}
               </Text>
               <View row alignItems="center">
                 <MaterialCommunityIcons
@@ -133,18 +82,23 @@ const MovieDetail = ({route}: Props) => {
           <View row paddingHorizontal={14}>
             <View>
               <FastImage
-                source={getImageApi(detail?.poster_path) as {uri: string}}
+                source={
+                  getImageApi(detail?.poster_path, 'w500') as {uri: string}
+                }
                 style={styles.bodyImage}
                 resizeMode="stretch"
               />
             </View>
-            <View paddingHorizontal={16} justifyContent="space-between">
+            <View
+              paddingHorizontal={16}
+              justifyContent="space-between"
+              flexShrink={1}>
               <View>
                 <Text fontSize={hp('2%')} color={Colors.gray} fontWeight="bold">
-                  Duration
+                  Season & Episodes
                 </Text>
                 <Text color={Colors.grayWhite}>
-                  {timeConvert(detail?.runtime)}
+                  {`${detail?.number_of_seasons} Season(s) & ${detail?.number_of_episodes} Episode(s)`}
                 </Text>
               </View>
               <View>
@@ -157,11 +111,11 @@ const MovieDetail = ({route}: Props) => {
               </View>
               <View>
                 <Text fontSize={hp('2%')} color={Colors.gray} fontWeight="bold">
-                  Release Date
+                  Last Air Date
                 </Text>
                 <Text color={Colors.grayWhite}>
-                  {detail?.release_date
-                    ? moment(detail?.release_date).format('D MMM YYYY')
+                  {detail?.last_air_date
+                    ? moment(detail?.last_air_date).format('D MMM YYYY')
                     : ''}
                 </Text>
               </View>
@@ -193,24 +147,11 @@ const MovieDetail = ({route}: Props) => {
           <View height={22} />
 
           <View>
-            <Text
-              fontSize={hp('2%')}
-              color={Colors.gray}
-              fontWeight="bold"
-              paddingHorizontal={14}>
-              Main Cast
-            </Text>
-            <View height={10} />
-            <FlatList
-              data={dummy}
-              renderItem={({item}) => (
-                <PersonItem onPress={() => null} {...item} />
-              )}
-              keyExtractor={(_, index) => `list-main-cast-${index}`}
-              horizontal
-              contentContainerStyle={styles.list}
-              ItemSeparatorComponent={() => <View width={20} />}
-              showsHorizontalScrollIndicator={false}
+            <HorizontalPersonList
+              title="Main Cast"
+              id={tvId}
+              keyID="list-movie-cast"
+              mediaType={MEDIA_TYPE.TV}
             />
           </View>
 
@@ -226,7 +167,7 @@ const MovieDetail = ({route}: Props) => {
                 Original Title
               </Text>
               <Text flex={3} color={Colors.grayWhite} fontWeight="bold">
-                {detail?.original_title}
+                {detail?.original_name}
               </Text>
             </View>
             <View height={5} />
@@ -252,19 +193,10 @@ const MovieDetail = ({route}: Props) => {
             <View height={5} />
             <View row>
               <Text flex={1.5} color={Colors.grayWhite}>
-                Budget
+                Networks
               </Text>
               <Text flex={3} color={Colors.grayWhite} fontWeight="bold">
-                {`$${thousandSeparator(detail?.budget)}`}
-              </Text>
-            </View>
-            <View height={5} />
-            <View row>
-              <Text flex={1.5} color={Colors.grayWhite}>
-                Revenue
-              </Text>
-              <Text flex={3} color={Colors.grayWhite} fontWeight="bold">
-                {`$${thousandSeparator(detail?.revenue)}`}
+                {detail?.networks?.map(item => item?.name).join(', ')}
               </Text>
             </View>
           </View>
@@ -276,7 +208,7 @@ const MovieDetail = ({route}: Props) => {
   );
 };
 
-export default MovieDetail;
+export default TVShowDetail;
 
 const styles = StyleSheet.create({
   container: {

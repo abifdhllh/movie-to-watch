@@ -1,5 +1,11 @@
-import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import View from '@components/View';
 import MovieHorizontalItem from '@components/ListItem/MovieItem';
@@ -7,6 +13,7 @@ import {getImageApi, round} from '@utils/functions';
 import Text from '@components/Text';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Colors} from '@utils/theme';
+import {HITSLOP_VALUE} from '@utils/constant';
 
 type Props = {
   title?: string;
@@ -16,6 +23,8 @@ type Props = {
   screenToNavigate: string;
   titleKey: string;
   loading: boolean;
+  customUrl: string;
+  headerTitle: string;
 };
 
 const HorizontalMovieList = ({
@@ -26,14 +35,36 @@ const HorizontalMovieList = ({
   screenToNavigate,
   titleKey,
   loading,
+  customUrl,
+  headerTitle,
 }: Props) => {
   return (
     <>
       {!!title && (
         <>
-          <Text fontSize={hp('2.5%')} fontWeight="bold" paddingHorizontal={15}>
-            {title}
-          </Text>
+          <View row justifyContent="space-between" alignItems="center">
+            <Text
+              fontSize={hp('2.5%')}
+              fontWeight="bold"
+              paddingHorizontal={15}>
+              {title}
+            </Text>
+            <TouchableOpacity
+              hitSlop={HITSLOP_VALUE}
+              onPress={() =>
+                navigate('List', {
+                  customUrl,
+                  title: headerTitle,
+                  screenToNavigate,
+                })
+              }>
+              <MaterialCommunityIcons
+                color={Colors.black}
+                size={hp('4%')}
+                name="chevron-right"
+              />
+            </TouchableOpacity>
+          </View>
           <View height={10} />
         </>
       )}

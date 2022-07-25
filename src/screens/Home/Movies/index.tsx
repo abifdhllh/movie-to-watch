@@ -1,15 +1,11 @@
-import {FlatList, ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import View from '@components/View';
-import Text from '@components/Text';
 import {Colors} from '@utils/theme';
-import MovieHorizontalItem from '@components/ListItem/MovieItem';
 import {Dispatch, RootState} from '@store/index';
-import {getImageApi, round} from '@utils/functions';
 import {MEDIA_TYPE} from '@utils/constant';
 import {RootStackParamList} from '@navigation/types';
 import HorizontalMovieList from '@components/List/HorizontalMovieList';
@@ -25,7 +21,6 @@ const HomeMovies = ({navigation}: Props) => {
     loadingTrending,
     loadingUpcoming,
   } = movies;
-  console.log('Loading', loadingNowPlaying);
   const dispatch = useDispatch<Dispatch>();
 
   useEffect(() => {
@@ -49,6 +44,8 @@ const HomeMovies = ({navigation}: Props) => {
         screenToNavigate="MovieDetail"
         titleKey="title"
         loading={loadingTrending}
+        customUrl="/trending/movie/week"
+        headerTitle="Trending Movies"
       />
 
       <View height={20} />
@@ -61,6 +58,8 @@ const HomeMovies = ({navigation}: Props) => {
         screenToNavigate="MovieDetail"
         titleKey="title"
         loading={loadingNowPlaying}
+        customUrl="/movie/now_playing"
+        headerTitle="Now Showing Movies"
       />
 
       <View height={20} />
@@ -73,6 +72,8 @@ const HomeMovies = ({navigation}: Props) => {
         screenToNavigate="MovieDetail"
         titleKey="title"
         loading={loadingUpcoming}
+        customUrl="/movie/upcoming"
+        headerTitle="Upcoming Movies"
       />
 
       <View height={20} />
@@ -85,6 +86,8 @@ const HomeMovies = ({navigation}: Props) => {
         screenToNavigate="MovieDetail"
         titleKey="title"
         loading={loadingPopular}
+        customUrl="/movie/popular"
+        headerTitle="Popular Movies"
       />
 
       <View height={20} />
@@ -97,6 +100,8 @@ const HomeMovies = ({navigation}: Props) => {
         screenToNavigate="MovieDetail"
         titleKey="title"
         loading={loadingTopRated}
+        customUrl="/movie/top_rated"
+        headerTitle="Top Rated Movies"
       />
 
       <View height={15} />

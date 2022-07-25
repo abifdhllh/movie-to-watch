@@ -14,8 +14,10 @@ import Home from '@screens/Home';
 import Search from '@screens/Search';
 import {LOGO_WITH_TEXT} from '@utils/images';
 import {Colors} from '@utils/theme';
-import MovieDetail from '@screens/Home/Movies/Detail';
+import MovieDetail from '@screens/Movies/Detail';
 import {RootStackParamList} from './types';
+import TVShowDetail from '@screens/TVShow/Detail';
+import List from '@screens/List';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -80,9 +82,19 @@ export default function AppNavigation() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="List"
+          component={List}
+          options={({route}) => ({title: route?.params?.title})}
+        />
+        <Stack.Screen
           name="MovieDetail"
           component={MovieDetail}
           options={{title: 'Movie Detail'}}
+        />
+        <Stack.Screen
+          name="TVShowDetail"
+          component={TVShowDetail}
+          options={{title: 'TV Show Detail'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

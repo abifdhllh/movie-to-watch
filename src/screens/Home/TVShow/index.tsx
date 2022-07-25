@@ -1,18 +1,26 @@
-import {FlatList, ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import View from '@components/View';
-import Text from '@components/Text';
+import HorizontalMovieList from '@components/List/HorizontalMovieList';
 import {Colors} from '@utils/theme';
-import MovieHorizontalItem from '@components/ListItem/MovieItem';
 import {Dispatch, RootState} from '@store/index';
-import {cutText, getImageApi, round} from '@utils/functions';
 import {MEDIA_TYPE} from '@utils/constant';
+import {RootStackParamList} from '@navigation/types';
 
-const HomeTVShow = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'TabMenu'>;
+
+const HomeTVShow = ({navigation}: Props) => {
   const {tvShow} = useSelector((state: RootState) => state.home);
+  const {
+    loadingAiringToday,
+    loadingOnTheAir,
+    loadingPopular,
+    loadingTopRated,
+    loadingTrending,
+  } = tvShow;
   const dispatch = useDispatch<Dispatch>();
 
   useEffect(() => {
@@ -28,112 +36,72 @@ const HomeTVShow = () => {
     <ScrollView style={styles.container}>
       <View height={15} />
 
-      <Text fontSize={hp('2.5%')} fontWeight="bold" paddingHorizontal={15}>
-        Trending
-      </Text>
-      <View height={10} />
-      <FlatList
-        horizontal
+      <HorizontalMovieList
         data={tvShow.trending}
-        keyExtractor={(_, index) => `list-trending-tv-show-${index}`}
-        renderItem={({item}) => (
-          <MovieHorizontalItem
-            title={item.title}
-            image={getImageApi(item.poster_path) as {uri: string}}
-            rating={round(item.vote_average, 1)}
-          />
-        )}
-        ItemSeparatorComponent={() => <View width={15} />}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
+        title="Trending"
+        keyID="list-trending-tv-show"
+        navigate={navigation.navigate}
+        screenToNavigate="TVShowDetail"
+        titleKey="name"
+        loading={loadingTrending}
+        customUrl="/trending/tv/week"
+        headerTitle="Trending TV Show"
       />
 
       <View height={20} />
 
-      <Text fontSize={hp('2.5%')} fontWeight="bold" paddingHorizontal={15}>
-        Popular
-      </Text>
-      <View height={10} />
-      <FlatList
-        horizontal
-        data={tvShow.popular}
-        keyExtractor={(_, index) => `list-popular-tv-show-${index}`}
-        renderItem={({item}) => (
-          <MovieHorizontalItem
-            title={cutText(item.name as string, 30)}
-            image={getImageApi(item.poster_path) as {uri: string}}
-            rating={round(item.vote_average, 1)}
-          />
-        )}
-        ItemSeparatorComponent={() => <View width={15} />}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
-      />
-
-      <View height={20} />
-
-      <Text fontSize={hp('2.5%')} fontWeight="bold" paddingHorizontal={15}>
-        Top Rated
-      </Text>
-      <View height={10} />
-      <FlatList
-        horizontal
-        data={tvShow.topRated}
-        keyExtractor={(_, index) => `list-top-rated-tv-show-${index}`}
-        renderItem={({item}) => (
-          <MovieHorizontalItem
-            title={cutText(item.name as string, 30)}
-            image={getImageApi(item.poster_path) as {uri: string}}
-            rating={round(item.vote_average, 1)}
-          />
-        )}
-        ItemSeparatorComponent={() => <View width={15} />}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
-      />
-
-      <View height={20} />
-
-      <Text fontSize={hp('2.5%')} fontWeight="bold" paddingHorizontal={15}>
-        Airing Today
-      </Text>
-      <View height={10} />
-      <FlatList
-        horizontal
+      <HorizontalMovieList
         data={tvShow.airingToday}
-        keyExtractor={(_, index) => `list-now-showing-tv-show-${index}`}
-        renderItem={({item}) => (
-          <MovieHorizontalItem
-            title={item.title}
-            image={getImageApi(item.poster_path) as {uri: string}}
-            rating={round(item.vote_average, 1)}
-          />
-        )}
-        ItemSeparatorComponent={() => <View width={15} />}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
+        title="Airing Today"
+        keyID="list-airing-today-tv-show"
+        navigate={navigation.navigate}
+        screenToNavigate="TVShowDetail"
+        titleKey="name"
+        loading={loadingAiringToday}
+        customUrl="/tv/airing_today"
+        headerTitle="Airing Today TV Show"
       />
 
       <View height={20} />
 
-      <Text fontSize={hp('2.5%')} fontWeight="bold" paddingHorizontal={15}>
-        On The Air
-      </Text>
-      <View height={10} />
-      <FlatList
-        horizontal
+      <HorizontalMovieList
         data={tvShow.onTheAir}
-        keyExtractor={(_, index) => `list-upcoming-tv-show-${index}`}
-        renderItem={({item}) => (
-          <MovieHorizontalItem
-            title={item.title}
-            image={getImageApi(item.poster_path) as {uri: string}}
-            rating={round(item.vote_average, 1)}
-          />
-        )}
-        ItemSeparatorComponent={() => <View width={15} />}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
+        title="On The Air"
+        keyID="list-on-the-air-tv-show"
+        navigate={navigation.navigate}
+        screenToNavigate="TVShowDetail"
+        titleKey="name"
+        loading={loadingOnTheAir}
+        customUrl="/tv/on_the_air"
+        headerTitle="On The Air TV Show"
+      />
+
+      <View height={20} />
+
+      <HorizontalMovieList
+        data={tvShow.popular}
+        title="Popular"
+        keyID="list-popular-tv-show"
+        navigate={navigation.navigate}
+        screenToNavigate="TVShowDetail"
+        titleKey="name"
+        loading={loadingPopular}
+        customUrl="/tv/popular"
+        headerTitle="Popular TV Show"
+      />
+
+      <View height={20} />
+
+      <HorizontalMovieList
+        data={tvShow.topRated}
+        title="Top Rated"
+        keyID="list-top-rated-tv-show"
+        navigate={navigation.navigate}
+        screenToNavigate="TVShowDetail"
+        titleKey="name"
+        loading={loadingTopRated}
+        customUrl="/tv/top_rated"
+        headerTitle="Top Rated TV Show"
       />
 
       <View height={15} />

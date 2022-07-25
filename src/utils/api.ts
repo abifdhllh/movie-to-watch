@@ -4,7 +4,7 @@ import {LANGUAGE, TMDB_API_KEY, TMDB_BASE_URL} from './constant';
 // Initiate Base URL
 const api = axios.create({
   baseURL: TMDB_BASE_URL,
-  timeout: 1000,
+  timeout: 5000,
 });
 
 const defaultParams = {
@@ -89,5 +89,34 @@ export const apiGetMovieDetail = (movieId: number) =>
   api.get(`/movie/${movieId}`, {
     params: {
       ...defaultParams,
+    },
+  });
+
+export const apiGetCredit = (movieId: number, mediaType: string) =>
+  api.get(`/${mediaType}/${movieId}/credits`, {
+    params: {
+      ...defaultParams,
+    },
+  });
+
+export const apiGetPersonDetail = (personId: number) =>
+  api.get(`/person/${personId}`, {
+    params: {
+      ...defaultParams,
+    },
+  });
+
+export const apiGetTVShowDetail = (tvId: number) =>
+  api.get(`/tv/${tvId}`, {
+    params: {
+      ...defaultParams,
+    },
+  });
+
+export const apiGetCustomMediaList = (customUrl: string, page: number) =>
+  api.get(customUrl, {
+    params: {
+      ...defaultParams,
+      page,
     },
   });

@@ -38,3 +38,26 @@ export const timeConvert = (val: number) => {
   var rminutes = Math.round(minutes);
   return `${rhours ? rhours + ' hr ' : ''}${rminutes} min`;
 };
+
+export function getAge(dateString: string) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return `${age} years`;
+}
+
+export function calculateTVShowSeasonsAndEpisodes(
+  tvShowSeasons: {episode_count: number}[],
+) {
+  const seasons = tvShowSeasons?.length;
+  const episodes = tvShowSeasons?.reduce(
+    (prevVal, currentVal) => prevVal + currentVal.episode_count,
+    0,
+  );
+
+  return `${seasons} Season(s) & ${episodes} Episode(s)`;
+}

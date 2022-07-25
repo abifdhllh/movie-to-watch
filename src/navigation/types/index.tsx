@@ -3,4 +3,12 @@ export type RootStackParamList = {
   MovieDetail: {
     id: number;
   };
+  TVShowDetail: {
+    id: number;
+  };
+  List: {
+    customUrl: string;
+    title: string;
+    screenToNavigate: string;
+  };
 };

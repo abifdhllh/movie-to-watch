@@ -8,5 +8,11 @@ const MEDIA_TYPE = {
   TV: 'tv',
   PERSON: 'person',
 };
+const HITSLOP_VALUE = {
+  top: 15,
+  bottom: 15,
+  right: 15,
+  left: 15,
+};
 
-export {TMDB_API_KEY, TMDB_BASE_URL, LANGUAGE, MEDIA_TYPE};
+export {TMDB_API_KEY, TMDB_BASE_URL, LANGUAGE, MEDIA_TYPE, HITSLOP_VALUE};
