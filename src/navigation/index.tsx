@@ -14,10 +14,11 @@ import Home from '@screens/Home';
 import Search from '@screens/Search';
 import {LOGO_WITH_TEXT} from '@utils/images';
 import {Colors} from '@utils/theme';
-import MovieDetail from '@screens/Movies/Detail';
+import MovieDetail from '@screens/Movies';
 import {RootStackParamList} from './types';
-import TVShowDetail from '@screens/TVShow/Detail';
+import TVShowDetail from '@screens/TVShow';
 import List from '@screens/List';
+import WatchList from '@screens/WatchList';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -57,7 +58,7 @@ function BottomTab() {
       />
       <Tab.Screen
         name="WatchList"
-        component={Search}
+        component={WatchList}
         options={{
           headerBackgroundContainerStyle: styles.headerBackground,
           headerTitle: 'Watch List',

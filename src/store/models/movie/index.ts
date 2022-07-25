@@ -4,6 +4,7 @@ import {
   apiGetCredit,
   apiGetCustomMediaList,
   apiGetMovieDetail,
+  apiGetMultiSearch,
   apiGetPersonDetail,
 } from '@utils/api';
 import {AxiosResponse} from 'axios';
@@ -13,6 +14,7 @@ import {
   Cast,
   PersonDetail,
   MediaListReponse,
+  MediaList,
 } from '../types';
 
 export const movie = createModel<RootModel>()({
@@ -29,6 +31,10 @@ export const movie = createModel<RootModel>()({
     castDetail: {} as PersonDetail,
     loadingCastDetail: true,
     errorCastDetail: true,
+    searchResult: {page: 0} as MediaListReponse | {page: number},
+    loadingSearchResult: true,
+    errorSearchResult: false,
+    watchList: [] as MediaList[],
   },
   reducers: {
     getMovieListRequest(state, isInitial?: boolean) {
@@ -125,6 +131,50 @@ export const movie = createModel<RootModel>()({
         loadingCastDetail: false,
       };
     },
+    getSearchResultRequest(state, isInitial?: boolean) {
+      return {
+        ...state,
+        searchResult: isInitial ? {page: 0} : state.searchResult,
+        loadingSearchResult: true,
+        errorSearchResult: false,
+      };
+    },
+    getSearchResultSuccess(state, payload: MediaListReponse) {
+      return {
+        ...state,
+        searchResult: {
+          ...payload,
+          results:
+            payload.page > 1
+              ? [
+                  ...(state.searchResult as MediaListReponse).results,
+                  ...payload.results,
+                ]
+              : payload.results,
+        },
+        loadingSearchResult: false,
+      };
+    },
+    getSearchResultFailure(state) {
+      return {
+        ...state,
+        errorSearchResult: true,
+        loadingSearchResult: false,
+      };
+    },
+    setWatchListData(state, watchList: any) {
+      return {
+        ...state,
+        watchList: [...state.watchList, watchList],
+      };
+    },
+    removeWatchListData(state, id: any) {
+      const filteredWatchList = state.watchList?.filter(item => item.id !== id);
+      return {
+        ...state,
+        watchList: filteredWatchList,
+      };
+    },
   },
   effects: dispatch => ({
     async getMovieList(
@@ -184,6 +234,27 @@ export const movie = createModel<RootModel>()({
         dispatch.movie.getCastDetailSuccess(response.data);
       } else {
         dispatch.movie.getCastDetailFailure();
+      }
+    },
+    async getSearchResult(
+      {searchValue, isInitial}: {searchValue: string; isInitial?: boolean},
+      state,
+    ) {
+      dispatch.movie.getSearchResultRequest(isInitial);
+      const response = (await apiGetMultiSearch(
+        searchValue,
+        isInitial ? 1 : state.movie.searchResult.page + 1,
+      )) as AxiosResponse<MediaListReponse>;
+
+      // @ts-ignore
+      response.data.results = response.data?.results?.filter(
+        item => item.media_type !== 'person',
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        dispatch.movie.getSearchResultSuccess(response.data);
+      } else {
+        dispatch.movie.getSearchResultFailure();
       }
     },
   }),

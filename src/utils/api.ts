@@ -120,3 +120,12 @@ export const apiGetCustomMediaList = (customUrl: string, page: number) =>
       page,
     },
   });
+
+export const apiGetMultiSearch = (searchValue: string, page: number) =>
+  api.get('/search/multi', {
+    params: {
+      ...defaultParams,
+      query: searchValue,
+      page,
+    },
+  });

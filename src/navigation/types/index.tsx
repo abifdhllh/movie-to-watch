@@ -11,4 +11,6 @@ export type RootStackParamList = {
     title: string;
     screenToNavigate: string;
   };
+  Search: undefined;
+  WatchList: undefined;
 };

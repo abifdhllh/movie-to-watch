@@ -352,6 +352,9 @@ export type MediaList = {
   title?: string;
   vote_average: number;
   id: number;
+  media_type: string;
+  popularity: number;
+  isBookmarked?: boolean;
 };
 
 export type MediaListReponse = {

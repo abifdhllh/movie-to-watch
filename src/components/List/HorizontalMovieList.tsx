@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   StyleSheet,
   TouchableOpacity,
@@ -14,6 +15,8 @@ import Text from '@components/Text';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Colors} from '@utils/theme';
 import {HITSLOP_VALUE} from '@utils/constant';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, Dispatch} from '@store/index';
 
 type Props = {
   title?: string;
@@ -38,6 +41,26 @@ const HorizontalMovieList = ({
   customUrl,
   headerTitle,
 }: Props) => {
+  const {watchList} = useSelector((state: RootState) => state.movie);
+  const dispatch = useDispatch<Dispatch>();
+
+  const filteredData = data.map((item: any) => ({
+    ...item,
+    isBookmarked: watchList?.some(listItem =>
+      listItem.id === item.id ? true : false,
+    ),
+  }));
+
+  const onPressBookmark = (item: any) => {
+    if (item.isBookmarked) {
+      dispatch.movie?.removeWatchListData(item.id);
+      Alert.alert('Successfully removed from Watch List!');
+    } else {
+      dispatch.movie?.setWatchListData(item);
+      Alert.alert('Successfully added to Watch List!');
+    }
+  };
+
   return (
     <>
       {!!title && (
@@ -70,7 +93,7 @@ const HorizontalMovieList = ({
       )}
       <FlatList
         horizontal
-        data={data}
+        data={filteredData}
         keyExtractor={(_, index) => `${keyID}-${index}`}
         renderItem={({item}) => (
           <MovieHorizontalItem
@@ -78,6 +101,8 @@ const HorizontalMovieList = ({
             image={getImageApi(item.poster_path) as {uri: string}}
             rating={round(item.vote_average, 1)}
             onPress={() => navigate(screenToNavigate, {id: item.id})}
+            onPressBookmark={() => onPressBookmark(item)}
+            isBookmarked={item.isBookmarked}
           />
         )}
         ItemSeparatorComponent={() => <View width={15} />}

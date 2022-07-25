@@ -1,5 +1,11 @@
 import React, {useEffect} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -26,9 +32,21 @@ const TVShowDetail = ({route}: Props) => {
   const {detail, loadingDetail} = useSelector(
     (state: RootState) => state.tvShow,
   );
+  const {watchList} = useSelector((state: RootState) => state.movie);
   const dispatch = useDispatch<Dispatch>();
 
-  console.log('Detail', detail);
+  const isBookmarked = watchList?.some(item => item.id === tvId);
+
+  const onPressBookmark = () => {
+    if (isBookmarked) {
+      dispatch.movie?.removeWatchListData(tvId);
+      Alert.alert('Successfully removed from Watch List!');
+    } else {
+      dispatch.movie?.setWatchListData(detail);
+      Alert.alert('Successfully added to Watch List!');
+    }
+  };
+
   useEffect(() => {
     dispatch.tvShow?.getTVShowDetail(tvId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,6 +92,15 @@ const TVShowDetail = ({route}: Props) => {
                 </Text>
               </View>
             </View>
+            <TouchableOpacity
+              style={styles.iconBookmarkContainer}
+              onPress={onPressBookmark}>
+              <MaterialCommunityIcons
+                color={isBookmarked ? Colors.primary : Colors.white}
+                size={hp('6%')}
+                name={isBookmarked ? 'bookmark-check' : 'bookmark-plus'}
+              />
+            </TouchableOpacity>
           </View>
 
           <View height={30} />
@@ -232,5 +259,11 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 14,
+  },
+  iconBookmarkContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 5,
+    zIndex: 1,
   },
 });

@@ -8,6 +8,7 @@ export const Colors = {
   yellow: '#fcba03',
   gray: '#3d3d3d',
   grayWhite: '#808080',
+  whiteDim: '#f5f5f5',
 };
 
 export const Metrics = {

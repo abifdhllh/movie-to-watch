@@ -16,17 +16,28 @@ type Props = {
   title: string;
   rating: string;
   onPress: () => void;
+  onPressBookmark: () => void;
+  isBookmarked: boolean;
 };
 
-const MovieHorizontalItem = ({image, title, rating, onPress}: Props) => {
+const MovieHorizontalItem = ({
+  image,
+  title,
+  rating,
+  onPress,
+  onPressBookmark,
+  isBookmarked,
+}: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View width={wp('35%')}>
-        <TouchableOpacity style={styles.iconBookmarkContainer}>
+        <TouchableOpacity
+          style={styles.iconBookmarkContainer}
+          onPress={onPressBookmark}>
           <MaterialCommunityIcons
-            color={Colors.white}
+            color={isBookmarked ? Colors.primary : Colors.white}
             size={hp('5%')}
-            name="bookmark-plus"
+            name={isBookmarked ? 'bookmark-check' : 'bookmark-plus'}
           />
         </TouchableOpacity>
         <FastImage source={image} style={styles.image} resizeMode="stretch" />

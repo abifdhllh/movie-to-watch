@@ -1,11 +1,5 @@
-import React, {useEffect} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {Alert, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,63 +12,30 @@ import {RootStackParamList} from '@navigation/types';
 import {RootState, Dispatch} from '@store/index';
 import {Colors} from '@utils/theme';
 import {getImageApi, round} from '@utils/functions';
-import {MediaListReponse} from '@store/models/types';
+import {WATCH_LIST_ILLUSTRATION} from '@utils/images';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'List'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'WatchList'>;
 
-const List = ({navigation, route}: Props) => {
-  const {customUrl, screenToNavigate} = route?.params || {};
-  const {list, loadingList, watchList} = useSelector(
-    (state: RootState) => state.movie,
-  );
+const WatchList = ({navigation}: Props) => {
+  const {watchList} = useSelector((state: RootState) => state.movie);
   const dispatch = useDispatch<Dispatch>();
-  const movieList = list as MediaListReponse;
-
-  const filteredData = movieList?.results?.map((item: any) => ({
-    ...item,
-    isBookmarked: watchList?.some(listItem =>
-      listItem.id === item.id ? true : false,
-    ),
-  }));
 
   const onPressBookmark = (item: any) => {
-    if (item.isBookmarked) {
-      dispatch.movie?.removeWatchListData(item.id);
-      Alert.alert('Successfully removed from Watch List!');
-    } else {
-      dispatch.movie?.setWatchListData(item);
-      Alert.alert('Successfully added to Watch List!');
-    }
+    dispatch.movie?.removeWatchListData(item.id);
+    Alert.alert('Successfully removed from Watch WatchList!');
   };
-
-  function onLoadMore() {
-    if (movieList.page <= movieList.total_pages) {
-      dispatch.movie?.getMovieList({customUrl});
-    }
-  }
-
-  function onRefresh() {
-    dispatch.movie?.getMovieList({customUrl, isInitial: true});
-  }
-
-  useEffect(() => {
-    dispatch.movie?.getMovieList({customUrl, isInitial: true});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <FlatList
-      onRefresh={onRefresh}
-      refreshing={false}
       contentContainerStyle={styles.listContainer}
-      data={filteredData || []}
+      data={watchList}
       numColumns={2}
       ItemSeparatorComponent={() => <View height={16} />}
-      keyExtractor={(_, index) => `list-media-${index}`}
+      keyExtractor={(_, index) => `list-watch-${index}`}
       renderItem={({item}) => (
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate(screenToNavigate as 'MovieDetail', {
+            navigation.navigate(item.name ? 'TVShowDetail' : 'MovieDetail', {
               id: item.id,
             })
           }
@@ -84,9 +45,9 @@ const List = ({navigation, route}: Props) => {
               style={styles.iconBookmarkContainer}
               onPress={() => onPressBookmark(item)}>
               <MaterialCommunityIcons
-                color={item.isBookmarked ? Colors.primary : Colors.white}
+                color={Colors.primary}
                 size={hp('5%')}
-                name={item.isBookmarked ? 'bookmark-check' : 'bookmark-plus'}
+                name={'bookmark-check'}
               />
             </TouchableOpacity>
             <FastImage
@@ -110,36 +71,32 @@ const List = ({navigation, route}: Props) => {
           </View>
         </TouchableOpacity>
       )}
-      ListEmptyComponent={() =>
-        loadingList ? (
-          <View container center>
-            <ActivityIndicator color={Colors.primary} size="large" />
-          </View>
-        ) : (
-          <View />
-        )
-      }
-      onEndReached={onLoadMore}
-      onEndReachedThreshold={0.5}
-      ListFooterComponent={() =>
-        movieList?.page > 0 && loadingList ? (
-          <View center marginVertical={16}>
-            <ActivityIndicator color={Colors.primary} size="large" />
-          </View>
-        ) : (
-          <View />
-        )
-      }
+      ListEmptyComponent={() => (
+        <View container center>
+          <FastImage
+            source={WATCH_LIST_ILLUSTRATION}
+            style={styles.imageEmpty}
+            resizeMode="stretch"
+          />
+          <View height={35} />
+          <Text
+            textAlign="center"
+            fontWeight="bold"
+            fontSize={hp('2.5%')}
+            paddingHorizontal={20}>
+            You don't have any Watch List yet
+          </Text>
+        </View>
+      )}
     />
   );
 };
 
-export default List;
+export default WatchList;
 
 const styles = StyleSheet.create({
   listContainer: {
     paddingVertical: 16,
-    paddingLeft: 16,
     flexGrow: 1,
     backgroundColor: Colors.white,
   },
@@ -161,7 +118,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   touchable: {
-    flex: 1,
-    marginRight: 16,
+    width: '50%',
+    paddingHorizontal: 10,
+  },
+  imageEmpty: {
+    height: hp('30%'),
+    width: hp('40%'),
   },
 });
