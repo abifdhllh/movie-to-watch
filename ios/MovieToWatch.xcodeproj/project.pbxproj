@@ -9,24 +9,13 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* MovieToWatchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MovieToWatchTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-MovieToWatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-MovieToWatch.a */; };
-		0F28398C288C587F00158B26 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F28397F288C587F00158B26 /* MaterialCommunityIcons.ttf */; };
-		0F28398D288C587F00158B26 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283980288C587F00158B26 /* Octicons.ttf */; };
-		0F28398E288C587F00158B26 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283981288C587F00158B26 /* AntDesign.ttf */; };
-		0F28398F288C587F00158B26 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283982288C587F00158B26 /* Fontisto.ttf */; };
-		0F283990288C587F00158B26 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283983288C587F00158B26 /* SimpleLineIcons.ttf */; };
-		0F283991288C587F00158B26 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283984288C587F00158B26 /* MaterialIcons.ttf */; };
-		0F283992288C587F00158B26 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283985288C587F00158B26 /* EvilIcons.ttf */; };
-		0F283993288C587F00158B26 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283986288C587F00158B26 /* FontAwesome.ttf */; };
-		0F283994288C587F00158B26 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283987288C587F00158B26 /* Foundation.ttf */; };
-		0F283995288C587F00158B26 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283988288C587F00158B26 /* Entypo.ttf */; };
-		0F283996288C587F00158B26 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F283989288C587F00158B26 /* Ionicons.ttf */; };
-		0F283997288C587F00158B26 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F28398A288C587F00158B26 /* Zocial.ttf */; };
-		0F283998288C587F00158B26 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F28398B288C587F00158B26 /* Feather.ttf */; };
+		0F600BAA288E360A00FB44CB /* Images.xcassets in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0F600BAB288E362300FB44CB /* LaunchScreen.storyboard in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0F600BAD288E36A700FB44CB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		0F600BAE288E36AD00FB44CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-MovieToWatch-MovieToWatchTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MovieToWatch-MovieToWatchTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +27,20 @@
 			remoteInfo = MovieToWatch;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0F600BA9288E344A00FB44CB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				0F600BAB288E362300FB44CB /* LaunchScreen.storyboard in CopyFiles */,
+				0F600BAA288E360A00FB44CB /* Images.xcassets in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* MovieToWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieToWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,10 +230,11 @@
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
-				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				0F600BA9288E344A00FB44CB /* CopyFiles */,
+				0F600BAC288E36A000FB44CB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -285,25 +289,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		13B07F8E1A680F5B00A75B9A /* Resources */ = {
+		0F600BAC288E36A000FB44CB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F283996288C587F00158B26 /* Ionicons.ttf in Resources */,
-				0F283991288C587F00158B26 /* MaterialIcons.ttf in Resources */,
-				0F283998288C587F00158B26 /* Feather.ttf in Resources */,
-				0F283995288C587F00158B26 /* Entypo.ttf in Resources */,
-				0F283993288C587F00158B26 /* FontAwesome.ttf in Resources */,
-				0F28398F288C587F00158B26 /* Fontisto.ttf in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				0F283997288C587F00158B26 /* Zocial.ttf in Resources */,
-				0F28398C288C587F00158B26 /* MaterialCommunityIcons.ttf in Resources */,
-				0F283994288C587F00158B26 /* Foundation.ttf in Resources */,
-				0F28398D288C587F00158B26 /* Octicons.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				0F283990288C587F00158B26 /* SimpleLineIcons.ttf in Resources */,
-				0F283992288C587F00158B26 /* EvilIcons.ttf in Resources */,
-				0F28398E288C587F00158B26 /* AntDesign.ttf in Resources */,
+				0F600BAE288E36AD00FB44CB /* LaunchScreen.storyboard in Resources */,
+				0F600BAD288E36A700FB44CB /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,6 +535,7 @@
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-MovieToWatch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -570,6 +562,7 @@
 			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-MovieToWatch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MovieToWatch/Info.plist;

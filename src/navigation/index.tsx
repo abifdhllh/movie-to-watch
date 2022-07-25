@@ -14,34 +14,22 @@ import Home from '@screens/Home';
 import Search from '@screens/Search';
 import {LOGO_WITH_TEXT} from '@utils/images';
 import {Colors} from '@utils/theme';
+import MovieDetail from '@screens/Home/Movies/Detail';
+import {RootStackParamList} from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 function BottomTab() {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerTitleAlign: 'center',
-        headerBackgroundContainerStyle: {
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.22,
-          shadowRadius: 2.22,
-
-          elevation: 10,
-          borderBottomWidth: 0.1,
-        },
-      }}>
+    <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
+          headerTitleAlign: 'center',
           tabBarActiveTintColor: Colors.primary,
+          headerStyle: styles.headerBackgroundHome,
           headerTitle: () => (
             <FastImage
               source={LOGO_WITH_TEXT}
@@ -58,6 +46,7 @@ function BottomTab() {
         name="Search"
         component={Search}
         options={{
+          headerBackgroundContainerStyle: styles.headerBackground,
           tabBarActiveTintColor: Colors.primary,
           tabBarIcon: ({color, size}) => (
             <Ionicons name="search" color={color} size={size} />
@@ -68,6 +57,7 @@ function BottomTab() {
         name="WatchList"
         component={Search}
         options={{
+          headerBackgroundContainerStyle: styles.headerBackground,
           headerTitle: 'Watch List',
           tabBarLabel: 'Watch List',
           tabBarActiveTintColor: Colors.primary,
@@ -89,6 +79,11 @@ export default function AppNavigation() {
           component={BottomTab}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="MovieDetail"
+          component={MovieDetail}
+          options={{title: 'Movie Detail'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -98,5 +93,22 @@ const styles = StyleSheet.create({
   logoImage: {
     height: hp('4%'),
     width: wp('22.5%'),
+  },
+  headerBackground: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 10,
+    borderBottomWidth: 0.1,
+  },
+  headerBackgroundHome: {
+    elevation: 0,
+    shadowOpacity: 0,
+    borderBottomWidth: 0,
   },
 });

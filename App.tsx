@@ -5,6 +5,10 @@ import SplashScreen from 'react-native-splash-screen';
 // Navigation
 import AppNavigation from './src/navigation';
 
+// Redux
+import {Provider} from 'react-redux';
+import {store} from './src/store';
+
 // Style
 import {Colors} from './src/utils/theme';
 
@@ -16,10 +20,10 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <Provider store={store}>
       <StatusBar barStyle="dark-content" backgroundColor={Colors.white} />
       <AppNavigation />
-    </>
+    </Provider>
   );
 };
 

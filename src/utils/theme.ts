@@ -5,6 +5,9 @@ export const Colors = {
   orange: '#f36b3c',
   appBg: '#f5f9f8',
   primary: '#ff5757',
+  yellow: '#fcba03',
+  gray: '#3d3d3d',
+  grayWhite: '#808080',
 };
 
 export const Metrics = {

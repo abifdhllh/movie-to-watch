@@ -1,25 +1,93 @@
 import axios from 'axios';
-import {ToastAndroid} from 'react-native';
+import {LANGUAGE, TMDB_API_KEY, TMDB_BASE_URL} from './constant';
 
 // Initiate Base URL
 const api = axios.create({
-  baseURL: 'https://recruitment-test.flip.id',
-  headers: {
-    Accept: 'application/json',
-    'Cache-Control': 'no-cache',
-    'Content-Type': 'application/json; charset=utf-8',
-  },
+  baseURL: TMDB_BASE_URL,
   timeout: 1000,
 });
 
+const defaultParams = {
+  api_key: TMDB_API_KEY,
+  language: LANGUAGE.EN,
+  page: 1,
+};
+
 // API Request List
-export const apiGetTransactionList = (params: any) =>
-  api.get('/frontend-test', {params}).catch(error => {
-    if (!error.status) {
-      ToastAndroid.show(
-        'Koneksi Error. Mohon cek kembali koneksimu.',
-        ToastAndroid.SHORT,
-      );
-    }
-    return {status: 400};
+export const apiGetNowPlayingMovies = (params: any) =>
+  api.get('/movie/now_playing', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetUpcomingMovies = (params: any) =>
+  api.get('/movie/upcoming', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetPopularMovies = (params: any) =>
+  api.get('/movie/popular', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetTopRatedMovies = (params: any) =>
+  api.get('/movie/top_rated', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetAiringTodayTVShow = (params: any) =>
+  api.get('/tv/airing_today', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetOnTheAirTVShow = (params: any) =>
+  api.get('/tv/on_the_air', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetPopularTVShow = (params: any) =>
+  api.get('/tv/popular', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetTopRatedTVShow = (params: any) =>
+  api.get('/tv/top_rated', {
+    params: {
+      ...defaultParams,
+      ...params,
+    },
+  });
+
+export const apiGetTrending = (mediaType: string) =>
+  api.get(`/trending/${mediaType}/week`, {
+    params: {
+      ...defaultParams,
+    },
+  });
+
+export const apiGetMovieDetail = (movieId: number) =>
+  api.get(`/movie/${movieId}`, {
+    params: {
+      ...defaultParams,
+    },
   });
