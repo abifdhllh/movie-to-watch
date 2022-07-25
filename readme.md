@@ -7,7 +7,7 @@ How to run this repository:
 Install the dependencies
 
 ```sh
-$ yarn or yarn install
+$ yarn install
 ```
 
 ### Step 1
